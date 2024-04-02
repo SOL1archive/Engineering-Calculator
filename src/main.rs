@@ -8,8 +8,8 @@ fn main() {
 
 #[test]
 fn term_copy_test() {
-    let term1 = Polymomial::new(1., 1.);
-    let term2 = term1;
+    let term1: Polymomial = Polymomial::new(1., 1.);
+    let term2: Polymomial = term1;
 
     assert_eq!(term2, term1);
 }
