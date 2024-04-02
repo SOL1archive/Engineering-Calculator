@@ -1,12 +1,12 @@
 use std::cmp;
 
-pub trait Term : Copy + Clone + Eq {
+pub trait Term : Copy + Clone + PartialEq {
     fn get_coefficient(&self) -> f64;
     fn get_exponent(&self) -> f64;
     fn evaluate(&self, x: f64) -> f64;
 }
 
-#[derive(Debug, Clone, Copy, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
 pub struct Polymomial {
     coefficient: f64,
     exponent: f64,
@@ -32,12 +32,5 @@ impl Term for Polymomial {
 
     fn evaluate(&self, x: f64) -> f64 {
         self.coefficient * x.powf(self.exponent)
-    }
-}
-
-impl PartialEq for Polymomial {
-    fn eq(&self, other: &Self) -> bool {
-        self.coefficient == other.coefficient &&
-        self.exponent == other.exponent
     }
 }
