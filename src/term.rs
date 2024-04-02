@@ -1,5 +1,3 @@
-use std::cmp;
-
 pub trait Term : Copy + Clone + PartialEq {
     fn get_coefficient(&self) -> f64;
     fn get_exponent(&self) -> f64;
