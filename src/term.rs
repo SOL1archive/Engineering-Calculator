@@ -34,7 +34,7 @@ impl Term for Polymomial {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
-struct Log {
+pub struct Log {
     coefficient: f64,
     exponent: f64,
     base: f64,
@@ -61,5 +61,34 @@ impl Term for Log {
 
     fn evaluate(&self, x: f64) -> f64 {
         self.coefficient * x.log(self.base)
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
+pub struct Exp {
+    coefficient: f64,
+    base: f64,
+}
+
+impl Exp {
+    pub fn new(coefficient: f64, base: f64) -> Exp {
+        Exp {
+            coefficient: coefficient,
+            base: base,
+        }
+    }
+}
+
+impl Term for Exp {
+    fn get_coefficient(&self) -> f64 {
+        self.coefficient
+    }
+
+    fn get_exponent(&self) -> f64 {
+        self.base
+    }
+
+    fn evaluate(&self, x: f64) -> f64 {
+        self.coefficient * self.base.powf(x)
     }
 }
