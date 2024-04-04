@@ -1,4 +1,4 @@
-pub trait Term : Copy + Clone + PartialEq {
+pub trait Term : Copy + Clone {
     fn get_coefficient(&self) -> f64;
     fn get_exponent(&self) -> f64;
     fn evaluate(&self, x: f64) -> f64;
