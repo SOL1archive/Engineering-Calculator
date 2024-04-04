@@ -1,5 +1,4 @@
-pub mod term;
-use crate::term::Term;
+pub mod formula;
 
 fn main() {
     
@@ -24,4 +23,10 @@ fn evaluation_test() {
     assert_eq!(x2.evaluate(2.), 4.);
     assert_eq!(log10.evaluate(10.), 1.);
     assert_eq!(exp2.evaluate(2.), 4.);
+}
+
+#[test]
+fn formula_gen() {
+    let mut formula1 = formula::Formula::new();
+
 }
