@@ -26,6 +26,11 @@ impl Formula {
         for i in 0..n {
             result += (self.evaluate(start + i * interval) + self.evaluate(start + (i + 1) * interval)) * interval * 2;
         }
+        
+        if start > end {
+            result *= -1;
+        }
+
         result
     }
 }
