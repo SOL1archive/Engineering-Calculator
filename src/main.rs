@@ -31,10 +31,10 @@ fn evaluation_test() {
 #[test]
 fn formula_evaluate() {
     let mut formula1 = formula::Formula::new();
-    let mut list: LinkedList<formula::Formula> = LinkedList::new();
-    formula1.formula.push_back(term::Polymomial::new(2., 0.));
-    formula1.formula.push_back(term::Polymomial::new(1., 2.));
-    formula1.formula.push_back(term::Exp::new(1., std::f64::consts::E));
+    let mut list: LinkedList<term::Term> = LinkedList::new();
+    formula1.push_back(term::Polymomial::new(2., 0.));
+    formula1.push_back(term::Polymomial::new(1., 2.));
+    formula1.push_back(term::Exp::new(1., std::f64::consts::E));
     
     list.push_back(term::Polymomial::new(1., 2.));
     list.push_back(term::Polymomial::new(2., 0.));
