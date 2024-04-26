@@ -1,94 +1,103 @@
-pub trait Term : Copy + Clone {
-    fn get_coefficient(&self) -> f64;
-    fn get_exponent(&self) -> f64;
-    fn evaluate(&self, x: f64) -> f64;
+use std::collections::LinkedList;
+
+pub enum TermType {
+    Polymomial,
+    Log { base: f64 },
+    Exp { base: f64 },
+    SubFunction { formula: Formula }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
-pub struct Polymomial {
+pub enum OperatorType {
+    Plus,
+    Multiply,
+}
+
+pub struct Term {
+    operator: OperatorType,
+    term_type: TermType,
     coefficient: f64,
-    exponent: f64,
+    exponent: f64
 }
 
-impl Polymomial {
-    pub fn new(coefficient: f64, exponent: f64) -> Polymomial {
-        Polymomial {
-            coefficient: coefficient,
-            exponent: exponent
-        }
-    }
-}
-
-impl Term for Polymomial {
-    fn get_coefficient(&self) -> f64 {
-        self.coefficient
-    }
-
-    fn get_exponent(&self) -> f64 {
-        self.exponent
-    }
-
-    fn evaluate(&self, x: f64) -> f64 {
-        self.coefficient * x.powf(self.exponent)
-    }
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
-pub struct Log {
-    coefficient: f64,
-    exponent: f64,
-    base: f64,
-}
-
-impl Log {
-    pub fn new(coefficient: f64, exponent: f64, base: f64) -> Log {
-        Log {
+impl Term {
+    pub fn new(operator: OperatorType, term_type: TermType, coefficient: f64, exponent: f64) -> Term{
+        Term {
+            operator: operator,
+            term_type: term_type,
             coefficient: coefficient,
             exponent: exponent,
-            base: base
         }
     }
+
+    pub fn evaluate(&self, x: f64) -> f64 {
+        if self.exponent == 0. {
+            return self.coefficient;
+        }
+
+        let result = match &self.term_type {
+            TermType::Polymomial => {
+                x
+            },
+            TermType::Exp { base } => {
+                base.powf(x)
+            },
+            TermType::Log { base } => {
+                x.log(*base)
+            },
+            TermType::SubFunction { formula } => {
+                formula.evaluate(x)
+            }
+        };
+        let result: f64 = self.coefficient * result.powf(self.exponent);
+
+        result
+    }
 }
 
-impl Term for Log {
-    fn get_coefficient(&self) -> f64 {
-        self.coefficient
-    }
-
-    fn get_exponent(&self) -> f64 {
-        self.exponent
-    }
-
-    fn evaluate(&self, x: f64) -> f64 {
-        self.coefficient * x.log(self.base)
-    }
+pub struct Formula {
+    formula: LinkedList<Term>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
-pub struct Exp {
-    coefficient: f64,
-    base: f64,
-}
-
-impl Exp {
-    pub fn new(coefficient: f64, base: f64) -> Exp {
-        Exp {
-            coefficient: coefficient,
-            base: base,
+impl Formula {
+    pub fn new() -> Formula {
+        Formula {
+            
         }
     }
-}
 
-impl Term for Exp {
-    fn get_coefficient(&self) -> f64 {
-        self.coefficient
+    pub fn evaluate(&self, x: f64) -> f64 {
+        let mut result: f64 = 0.;
+        for term in self.formula.iter() {
+            let sub_result: f64 = term.evaluate(x);
+            match term.operator {
+                OperatorType::Plus => {
+                    result += sub_result;
+                },
+                OperatorType::Multiply => {
+                    result *= sub_result;
+                }
+            }
+        }
+        result
     }
 
-    fn get_exponent(&self) -> f64 {
-        self.base
+    pub fn differential(&self, x: f64) -> f64 {
+        (self.evaluate(x + f64::EPSILON) - self.evaluate(x - f64::EPSILON)) / (2. * f64::EPSILON)
     }
 
-    fn evaluate(&self, x: f64) -> f64 {
-        self.coefficient * self.base.powf(x)
+    pub fn integral(&self, start: f64, end: f64) -> f64 {
+        let interval: f64 = (end - start) / f64::EPSILON;
+        let n: u64 = (1. / f64::EPSILON) as u64;
+        let mut result: f64 = 0.;
+        for i in 0..n {
+            let i: f64 = i as f64;
+            result += (self.evaluate(start + i * interval) + self.evaluate(start + (i + 1.) * interval)) * interval * 2.;
+        }
+        
+        if start > end {
+            result *= -1.;
+        }
+
+        result
     }
 }
