@@ -61,7 +61,7 @@ pub struct Formula {
 impl Formula {
     pub fn new() -> Formula {
         Formula {
-            
+            formula: LinkedList::new(),
         }
     }
 
