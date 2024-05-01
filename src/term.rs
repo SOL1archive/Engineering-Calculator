@@ -65,6 +65,10 @@ impl Formula {
         }
     }
 
+    pub fn push(&mut self, term: Term) {
+        self.formula.push_back(term);
+    }
+
     pub fn evaluate(&self, x: f64) -> f64 {
         let mut result: f64 = 0.;
         for term in self.formula.iter() {
