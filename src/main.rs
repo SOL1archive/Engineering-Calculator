@@ -1,6 +1,8 @@
 pub mod term;
 pub mod parser;
 
+use std::collections::LinkedList;
+
 use crate::term::{OperatorType, TermType, Term, Formula};
 
 fn main() {
@@ -43,14 +45,14 @@ fn formula_evaluation_test() {
 fn parser_test() {
     let text = String::from("+-*/()");
     let output = parser::parse(text);
-    let expected = vec![
+    let expected = LinkedList::from([
         parser::Token::Plus(String::from('+')),
         parser::Token::Minus(String::from('-')),
         parser::Token::Multiply(String::from('*')),
         parser::Token::Divide(String::from('/')),
         parser::Token::Lparen(String::from('(')),
         parser::Token::Rparen(String::from(')')),
-    ];
+    ]);
     
     assert_eq!(output, expected);
 }

@@ -1,3 +1,5 @@
+use std::collections::LinkedList;
+
 #[derive(Debug, PartialEq)]
 pub enum Token {
     Illegal(String),
@@ -17,23 +19,23 @@ pub enum Token {
     Exp(String),
 }
 
-pub fn parse(text: String) -> Vec<Token> {
-    let mut vec:Vec<Token> = Vec::new();
+pub fn parse(text: String) -> LinkedList<Token> {
+    let mut vec :LinkedList<Token> = LinkedList::new();
     for (i, ch) in text.chars().enumerate() {
         if ch.is_whitespace() {
             continue;
         } else if ch == '+' {
-            vec.push(Token::Plus(String::from('+')));
+            vec.push_back(Token::Plus(String::from('+')));
         } else if ch == '-' {
-            vec.push(Token::Minus(String::from('-')));
+            vec.push_back(Token::Minus(String::from('-')));
         } else if ch == '*' {
-            vec.push(Token::Multiply(String::from('*')));
+            vec.push_back(Token::Multiply(String::from('*')));
         } else if ch == '/' {
-            vec.push(Token::Divide(String::from('/')));
+            vec.push_back(Token::Divide(String::from('/')));
         } else if ch == '(' {
-            vec.push(Token::Lparen(String::from('(')));
+            vec.push_back(Token::Lparen(String::from('(')));
         } else if ch == ')' {
-            vec.push(Token::Rparen(String::from(')')));
+            vec.push_back(Token::Rparen(String::from(')')));
         }
     }
 
