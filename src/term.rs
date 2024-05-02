@@ -7,6 +7,7 @@ pub enum TermType {
     SubFunction { formula: Formula }
 }
 
+#[derive(PartialEq)]
 pub enum OperatorType {
     Plus,
     Multiply,
@@ -71,14 +72,33 @@ impl Formula {
 
     pub fn evaluate(&self, x: f64) -> f64 {
         let mut result: f64 = 0.;
-        for term in self.formula.iter() {
+        let mut temp_result: f64 = 0.;
+        let mut poped_formula = self.formula.iter();
+        poped_formula.next();
+        for (term, next_term) in self.formula.iter().zip(poped_formula) {
             let sub_result: f64 = term.evaluate(x);
             match term.operator {
                 OperatorType::Plus => {
-                    result += sub_result;
+                    match next_term.operator {
+                        OperatorType::Plus => {
+                            result = temp_result + sub_result;
+                            temp_result = 1.;
+                        },
+                        OperatorType::Multiply => {
+                            temp_result *= sub_result;
+                        }
+                    }
                 },
                 OperatorType::Multiply => {
-                    result *= sub_result;
+                    match next_term.operator {
+                        OperatorType::Plus => {
+                            result = temp_result * sub_result;
+                            temp_result = 1.;
+                        },
+                        OperatorType::Multiply => {
+                            temp_result *= sub_result;
+                        }
+                    }
                 }
             }
         }
