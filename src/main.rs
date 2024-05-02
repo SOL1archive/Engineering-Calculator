@@ -1,5 +1,6 @@
 pub mod term;
-pub mod parser;
+pub mod token;
+pub mod lexer;
 
 use std::collections::LinkedList;
 
@@ -52,32 +53,32 @@ fn formula_evaluation_test() {
 #[test]
 fn lexer_test() {
     let text1 = String::from("+-*/()");
-    let output1 = parser::lexer(text1);
+    let output1 = lexer::lexer(text1);
     let expected1 = LinkedList::from([
-        parser::Token::Plus(String::from('+')),
-        parser::Token::Minus(String::from('-')),
-        parser::Token::Multiply(String::from('*')),
-        parser::Token::Divide(String::from('/')),
-        parser::Token::Lparen(String::from('(')),
-        parser::Token::Rparen(String::from(')')),
+        token::Token::Plus(String::from('+')),
+        token::Token::Minus(String::from('-')),
+        token::Token::Multiply(String::from('*')),
+        token::Token::Divide(String::from('/')),
+        token::Token::Lparen(String::from('(')),
+        token::Token::Rparen(String::from(')')),
     ]);
     assert_eq!(output1, expected1);
 
     let text2 = String::from("x + 1");
-    let output2 = parser::lexer(text2);
+    let output2 = lexer::lexer(text2);
     let expected2 = LinkedList::from([
-        parser::Token::Ident(String::from('x')),
-        parser::Token::Plus(String::from('+')),
-        parser::Token::Ident(String::from('1')),
+        token::Token::Ident(String::from('x')),
+        token::Token::Plus(String::from('+')),
+        token::Token::Ident(String::from('1')),
     ]);
     assert_eq!(output2, expected2);
 
     let text3 = String::from("sin+ 1");
-    let output3 = parser::lexer(text3);
+    let output3 = lexer::lexer(text3);
     let expected3 = LinkedList::from([
-        parser::Token::Ident(String::from("sin")),
-        parser::Token::Plus(String::from('+')),
-        parser::Token::Ident(String::from('1')),
+        token::Token::Ident(String::from("sin")),
+        token::Token::Plus(String::from('+')),
+        token::Token::Ident(String::from('1')),
     ]);
     assert_eq!(output3, expected3);
 }

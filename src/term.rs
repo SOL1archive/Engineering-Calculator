@@ -81,22 +81,22 @@ impl Formula {
                 OperatorType::Plus => {
                     match next_term.operator {
                         OperatorType::Plus => {
-                            result = temp_result + sub_result;
-                            temp_result = 1.;
+                            result += temp_result + sub_result;
+                            temp_result = 0.;
                         },
                         OperatorType::Multiply => {
-                            temp_result *= sub_result;
+                            temp_result = sub_result;
                         }
                     }
                 },
                 OperatorType::Multiply => {
                     match next_term.operator {
                         OperatorType::Plus => {
-                            result = temp_result * sub_result;
-                            temp_result = 1.;
+                            result *= temp_result * sub_result;
+                            temp_result = 0.;
                         },
                         OperatorType::Multiply => {
-                            temp_result *= sub_result;
+                            temp_result = sub_result;
                         }
                     }
                 }
