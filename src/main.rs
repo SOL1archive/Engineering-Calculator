@@ -39,13 +39,21 @@ fn formula_evaluation_test() {
 
     assert_eq!(formula1.evaluate(1.), 3.);
     assert_eq!(formula2.evaluate(1.), 2.);
+
+    let linear = Term::new(OperatorType::Plus, TermType::Polymomial, 2., 1.);
+    let x2 = Term::new(OperatorType::Multiply, TermType::Polymomial, 1., 2.);
+    let mut multipy_formula = Formula::new();
+    multipy_formula.push(linear);
+    multipy_formula.push(x2);
+
+    assert_eq!(multipy_formula.evaluate(2.), 16.);
 }
 
 #[test]
-fn parser_test() {
-    let text = String::from("+-*/()");
-    let output = parser::parse(text);
-    let expected = LinkedList::from([
+fn lexer_test() {
+    let text1 = String::from("+-*/()");
+    let output1 = parser::lexer(text1);
+    let expected1 = LinkedList::from([
         parser::Token::Plus(String::from('+')),
         parser::Token::Minus(String::from('-')),
         parser::Token::Multiply(String::from('*')),
@@ -53,6 +61,23 @@ fn parser_test() {
         parser::Token::Lparen(String::from('(')),
         parser::Token::Rparen(String::from(')')),
     ]);
-    
-    assert_eq!(output, expected);
+    assert_eq!(output1, expected1);
+
+    let text2 = String::from("x + 1");
+    let output2 = parser::lexer(text2);
+    let expected2 = LinkedList::from([
+        parser::Token::Ident(String::from('x')),
+        parser::Token::Plus(String::from('+')),
+        parser::Token::Ident(String::from('1')),
+    ]);
+    assert_eq!(output2, expected2);
+
+    let text3 = String::from("sin+ 1");
+    let output3 = parser::lexer(text3);
+    let expected3 = LinkedList::from([
+        parser::Token::Ident(String::from("sin")),
+        parser::Token::Plus(String::from('+')),
+        parser::Token::Ident(String::from('1')),
+    ]);
+    assert_eq!(output3, expected3);
 }
