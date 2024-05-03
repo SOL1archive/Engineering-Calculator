@@ -1,5 +1,3 @@
-use std::collections::LinkedList;
-
 #[derive(Debug, PartialEq)]
 pub enum Token {
     Illegal(String),
