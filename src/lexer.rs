@@ -1,7 +1,7 @@
 use std::collections::LinkedList;
 use crate::token::Token;
 
-pub fn lexer(text: String) -> LinkedList<Token> {
+pub fn lexical_analyze(text: String) -> LinkedList<Token> {
     let mut vec :LinkedList<Token> = LinkedList::new();
     let mut start_pos: usize = text.len();
     for (i, ch) in text.chars().enumerate() {

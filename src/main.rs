@@ -53,7 +53,7 @@ fn formula_evaluation_test() {
 #[test]
 fn lexer_test() {
     let text1 = String::from("+-*/()");
-    let output1 = lexer::lexer(text1);
+    let output1 = lexer::lexical_analyze(text1);
     let expected1 = LinkedList::from([
         token::Token::Plus(String::from('+')),
         token::Token::Minus(String::from('-')),
@@ -65,7 +65,7 @@ fn lexer_test() {
     assert_eq!(output1, expected1);
 
     let text2 = String::from("x + 1");
-    let output2 = lexer::lexer(text2);
+    let output2 = lexer::lexical_analyze(text2);
     let expected2 = LinkedList::from([
         token::Token::Ident(String::from('x')),
         token::Token::Plus(String::from('+')),
@@ -74,7 +74,7 @@ fn lexer_test() {
     assert_eq!(output2, expected2);
 
     let text3 = String::from("sin+ 1");
-    let output3 = lexer::lexer(text3);
+    let output3 = lexer::lexical_analyze(text3);
     let expected3 = LinkedList::from([
         token::Token::Ident(String::from("sin")),
         token::Token::Plus(String::from('+')),
@@ -83,7 +83,7 @@ fn lexer_test() {
     assert_eq!(output3, expected3);
 
     let text4 = String::from(" + x");
-    let output4 = lexer::lexer(text4);
+    let output4 = lexer::lexical_analyze(text4);
     let expected4 = LinkedList::from([
         token::Token::Plus(String::from('+')),
         token::Token::Ident(String::from('x')),
