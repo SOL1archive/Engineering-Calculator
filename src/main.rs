@@ -81,4 +81,12 @@ fn lexer_test() {
         token::Token::Ident(String::from('1')),
     ]);
     assert_eq!(output3, expected3);
+
+    let text4 = String::from(" + x");
+    let output4 = lexer::lexer(text4);
+    let expected4 = LinkedList::from([
+        token::Token::Plus(String::from('+')),
+        token::Token::Ident(String::from('x')),
+    ]);
+    assert_eq!(output4, expected4);
 }

@@ -6,10 +6,7 @@ pub fn lexer(text: String) -> LinkedList<Token> {
     let mut start_pos: usize = text.len();
     for (i, ch) in text.chars().enumerate() {
         if ch.is_whitespace() {
-            if start_pos != text.len() {
-                vec.push_back(Token::Ident(String::from(&text[start_pos..i])));
-                start_pos = text.len();
-            }
+            continue;
         } else if ch == '+' {
             vec.push_back(Token::Plus(String::from('+')));
         } else if ch == '-' {
@@ -26,6 +23,11 @@ pub fn lexer(text: String) -> LinkedList<Token> {
             if start_pos == text.len() {
                 start_pos = i;
             }
+
+            if i + 1 == text.len() || (! text.as_bytes()[i + 1].is_ascii_alphanumeric()) {
+                vec.push_back(Token::Ident(String::from(&text[start_pos..i + 1])));
+                start_pos = text.len();
+            } 
         }
     }
 
