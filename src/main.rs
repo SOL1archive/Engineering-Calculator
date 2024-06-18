@@ -55,12 +55,12 @@ fn lexer_test() {
     let text1 = String::from("+-*/()");
     let output1 = lexer::lexical_analyze(text1);
     let expected1 = LinkedList::from([
-        token::Token::Plus(String::from('+')),
-        token::Token::Minus(String::from('-')),
-        token::Token::Multiply(String::from('*')),
-        token::Token::Divide(String::from('/')),
-        token::Token::Lparen(String::from('(')),
-        token::Token::Rparen(String::from(')')),
+        token::Token::Plus,
+        token::Token::Minus,
+        token::Token::Multiply,
+        token::Token::Divide,
+        token::Token::Lparen,
+        token::Token::Rparen
     ]);
     assert_eq!(output1, expected1);
 
@@ -68,7 +68,7 @@ fn lexer_test() {
     let output2 = lexer::lexical_analyze(text2);
     let expected2 = LinkedList::from([
         token::Token::Ident(String::from('x')),
-        token::Token::Plus(String::from('+')),
+        token::Token::Plus,
         token::Token::Ident(String::from('1')),
     ]);
     assert_eq!(output2, expected2);
@@ -85,7 +85,7 @@ fn lexer_test() {
     let text4 = String::from(" + x");
     let output4 = lexer::lexical_analyze(text4);
     let expected4 = LinkedList::from([
-        token::Token::Plus(String::from('+')),
+        token::Token::Plus,
         token::Token::Ident(String::from('x')),
     ]);
     assert_eq!(output4, expected4);

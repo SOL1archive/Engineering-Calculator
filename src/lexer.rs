@@ -9,17 +9,17 @@ pub fn tokenize(text: String) -> LinkedList<Token> {
         if ch.is_whitespace() {
             continue;
         } else if ch == '+' {
-            lt.push_back(Token::Plus(String::from('+')));
+            lt.push_back(Token::Plus);
         } else if ch == '-' {
-            lt.push_back(Token::Minus(String::from('-')));
+            lt.push_back(Token::Minus);
         } else if ch == '*' {
-            lt.push_back(Token::Multiply(String::from('*')));
+            lt.push_back(Token::Multiply);
         } else if ch == '/' {
-            lt.push_back(Token::Divide(String::from('/')));
+            lt.push_back(Token::Divide);
         } else if ch == '(' {
-            lt.push_back(Token::Lparen(String::from('(')));
+            lt.push_back(Token::Lparen);
         } else if ch == ')' {
-            lt.push_back(Token::Rparen(String::from(')')));
+            lt.push_back(Token::Rparen);
         } else if ch.is_alphanumeric() {
             if start_pos == text.len() {
                 start_pos = i;
@@ -28,7 +28,7 @@ pub fn tokenize(text: String) -> LinkedList<Token> {
             if i + 1 == text.len() || (! text.as_bytes()[i + 1].is_ascii_alphanumeric()) {
                 lt.push_back(Token::Ident(String::from(&text[start_pos..i + 1])));
                 start_pos = text.len();
-            } 
+            }
         }
     }
 
@@ -36,11 +36,11 @@ pub fn tokenize(text: String) -> LinkedList<Token> {
 }
 
 fn parse(token_lt: LinkedList<Token>) -> Result<Formula, String> {
-    let formula = Formula::new();
+    let mut formula = Formula::new();
     for token in token_lt.iter() {
         formula.push(match &token {
             Token::Illegal(token) => return Err(String::from("Unexpected Token: ") + token),
-            
+            _ => {},
         })
     }
 

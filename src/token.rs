@@ -2,13 +2,13 @@
 pub enum Token {
     Illegal(String),
     
-    Plus(String),
-    Minus(String),
-    Multiply(String),
-    Divide(String),
+    Plus,
+    Minus,
+    Multiply,
+    Divide,
 
-    Lparen(String),
-    Rparen(String),
+    Lparen,
+    Rparen,
 
     Ident(String),
     
